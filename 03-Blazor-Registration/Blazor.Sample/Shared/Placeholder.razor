@@ -1,0 +1,32 @@
+﻿@inject IComponentActivationService Activation
+
+@foreach (var active in Activation.Components)
+{
+    <div id="@active.ComponentName-@active.ReferenceId">
+        <div>
+            @{
+                RenderFragment renderFragment = (builder) =>
+                {
+                    builder.OpenComponent(0, active.Component);
+                    builder.CloseComponent();
+                };
+                @renderFragment
+            }
+        </div>
+    </div>
+}
+
+@code {
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Activation.Changed += (s, e) =>
+            {
+                this.StateHasChanged();
+            };
+        }
+
+        return base.OnAfterRenderAsync(firstRender);
+    }
+}

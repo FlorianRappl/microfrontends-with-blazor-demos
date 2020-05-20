@@ -1,0 +1,38 @@
+﻿@page "/counter"
+@inject IComponentActivationService Activation
+
+<h1>Counter</h1>
+
+<Placeholder />
+
+<button class="btn btn-primary" @onclick="NextActivate">Click me</button>
+
+@code {
+    int count = 0;
+
+    void NextActivate()
+    {
+        Console.WriteLine(count);
+        if (count == 1)
+        {
+            (Activation as ComponentActivationService)?.Register("first", typeof(First));
+            (Activation as ComponentActivationService)?.Register("second", typeof(Second));
+        }
+
+        switch (count % 3)
+        {
+            case 0:
+                (Activation as ComponentActivationService)?.DeactivateComponent("second", (count - 1).ToString());
+                (Activation as ComponentActivationService)?.ActivateComponent("first", (count + 1).ToString());
+                break;
+            case 1:
+                (Activation as ComponentActivationService)?.ActivateComponent("first", count.ToString());
+                break;
+            case 2:
+                (Activation as ComponentActivationService)?.ActivateComponent("second", count.ToString());
+                break;
+        }
+
+        count++;
+    }
+}

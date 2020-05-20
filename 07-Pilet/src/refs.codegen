@@ -1,0 +1,34 @@
+const { resolve } = require("path");
+const { copyFileSync } = require("fs");
+
+module.exports = async function () {
+  const output = resolve(__dirname, "dotnet", "bin", "Release", "netstandard2.1");
+  const source = resolve(output, "wwwroot", "_framework", "_bin");
+  const target = this.options.outDir;
+  const files = ["Blazor.LibA.dll"];
+  
+  files.forEach((file) => {
+    const from = resolve(source, file);
+    const to = resolve(target, file);
+    copyFileSync(from, to)
+  });
+
+  return `module.exports = [
+    ${files.map(f => `__bundleUrl__ + "${f}"`).join(',')}
+  ];`;
+};
+" " 
+" " 
+" " 
+" " 
+" " 
+" " 
+" " 
+" " 
+" " 
+" " 
+" " 
+" " 
+" " 
+" " 
+" " 

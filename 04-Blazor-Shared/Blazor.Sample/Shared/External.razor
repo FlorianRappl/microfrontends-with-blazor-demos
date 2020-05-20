@@ -1,0 +1,21 @@
+﻿@inject IJSRuntime JsRuntime
+
+<div id="@renderId"></div>
+
+@code {
+    string renderId = $"react-{Guid.NewGuid()}";
+
+    [Parameter]
+    public string ComponentName { get; set; }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            JsRuntime.InvokeVoidAsync("renderReact", new[] { ComponentName, renderId });
+        }
+
+        return base.OnAfterRenderAsync(firstRender);
+    }
+}
+

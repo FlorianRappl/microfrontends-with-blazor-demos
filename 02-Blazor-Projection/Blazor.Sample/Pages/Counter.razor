@@ -1,0 +1,16 @@
+﻿@page "/counter"
+
+<h1>Counter</h1>
+
+<div id="projection-source"><p>Current count: @currentCount</p></div>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    int currentCount = 0;
+
+    void IncrementCount()
+    {
+        currentCount++;
+    }
+}
